@@ -6,15 +6,15 @@ import entities.enemies.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Crossbow extends Tower {
-    public Crossbow(TowerTile towerTile, BattleField battleField) {
+public class FireTower extends Tower {
+    public FireTower(TowerTile towerTile, BattleField battleField) {
         super(towerTile, battleField);
-        upgradeCosts = new int[] { 100, 60, 75, 88, 104, 122, 142, 165,189,216 };
-        damageLevels = new int[] {100, 140, 188, 246,316,400,500,618,756,916};
-        reloadLevels = new double[] {1, 0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55};
-        rangeLevels =  new double[] {2.45, 2.5, 2.55,2.6,2.65,2.7,2.75,2.8,2.85,2.9};
+        upgradeCosts = new int[] { 150, 50, 60, 72, 86, 102, 120, 140, 162, 186 };
+        damageLevels = new int[] {230, 270, 318, 376, 446, 530, 630, 748, 886, 1046};
+        reloadLevels = new double[] {1.5, 1.4, 1.3, 1.2, 1.1, 1.0, 0.9, 0.8, 0.7, 0.6, 0.5};
+        rangeLevels =  new double[] {3.05, 3.10, 3.15, 3.20, 3.25, 3.30, 3.35, 3.40, 3.45, 3.50};
         sellCost = upgradeCosts[0]/2;
-        name = "Crossbow";
+        name = "FireTower";
         upgrade();
     }
     public void attack(Enemy enemy){
@@ -29,12 +29,11 @@ public class Crossbow extends Tower {
     }
 
      */
-
     @Override
     public BufferedImage createImage() {
         BufferedImage image = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
-        g.setColor(new Color(128, 107, 7));
+        g.setColor(Color.red);
         g.fillRoundRect(0, 0, size.getWidth(), size.getHeight(), size.getWidth()/2,size.getHeight()/2);
         renderLevel(g);
         g.dispose();

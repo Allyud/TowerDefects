@@ -7,6 +7,7 @@ import java.util.Random;
 public abstract class RenderableObject {
 
     protected Position position;
+    protected Position centerPosition;
     protected Size size;
     protected Color baseColor;
     protected BufferedImage image;
@@ -28,6 +29,10 @@ public abstract class RenderableObject {
     }
     public void setPosition(Position position) {
         this.position = position;
+    }
+    public Position getCenterPosition() {
+        centerPosition = new Position(position.getX()+ size.getWidth()/2, position.getY() + size.getHeight()/2);
+        return centerPosition;
     }
     public Size getSize() {
         return size;

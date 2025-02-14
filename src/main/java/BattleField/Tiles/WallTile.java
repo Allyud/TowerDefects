@@ -9,7 +9,7 @@ public class WallTile extends Tile {
 
     public WallTile(int x, int y, BattleField field, int type) {
         super(x, y, field);
-        baseColor = Color.GREEN;
+        baseColor = new Color(1, 20, 99);
         generateImage();
     }
     @Override

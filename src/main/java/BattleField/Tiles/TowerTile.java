@@ -8,9 +8,10 @@ import java.awt.image.BufferedImage;
 
 public class TowerTile extends Tile{
     private Tower tower;
+    private BufferedImage defaultImage;
+    private BufferedImage purchaseModeImage;
     public TowerTile(int x, int y, BattleField field) {
         super(x, y, field);
-        baseColor = new Color(183, 255, 100);
         generateImage();
     }
 
@@ -21,13 +22,29 @@ public class TowerTile extends Tile{
         this.tower = tower;
     }
 
+    public void setDefaultImage(){
+        image = defaultImage;
+    }
+    public void setPurchaseModeImage(){
+        image = purchaseModeImage;
+    }
     @Override
     protected BufferedImage createImage() {
-        BufferedImage image = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics g = image.getGraphics();
-        g.setColor(baseColor);
+        defaultImage = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics g = defaultImage.getGraphics();
+        g.setColor(new Color(66, 3, 78));
         g.fillRect(0, 0, size.getWidth(), size.getHeight());
         g.dispose();
-        return image;
+        purchaseModeImage = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        g = purchaseModeImage.getGraphics();
+        g.setColor(new Color(10, 209, 1));
+        g.fillRect(0, 0, size.getWidth(), size.getHeight());
+        g.dispose();
+        return defaultImage;
     }
+
+    public void removeTower(){
+        tower = null;
+    }
+
 }

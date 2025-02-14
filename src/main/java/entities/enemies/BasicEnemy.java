@@ -8,8 +8,10 @@ import java.awt.image.BufferedImage;
 
 public class BasicEnemy extends Enemy{
     public BasicEnemy(int scale, BattleField battleField) {
-        super(new Size(30,30),(int) ((1000*(scale))/100.0), 1, battleField);
+        super(new Size(battleField.getTileSize()/2,battleField.getTileSize()/2),320, 1,scale,  battleField);
+        moneyReward = 10;
     }
+
     //public void spawn();
 
     /*@Override
@@ -34,11 +36,17 @@ public class BasicEnemy extends Enemy{
     @Override
     protected BufferedImage createImage() {
         BufferedImage image = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics g = image.getGraphics();
+        Graphics2D g = image.createGraphics();
 
-        g.setColor(Color.BLUE);
+        g.setColor(new Color(4, 112, 234));
         g.fillOval(0, 0, size.getWidth(), size.getHeight());
-
+        g.setColor(Color.BLACK);
+        int eyeRadius = size.getHeight()/6;
+        g.fillOval((size.getWidth()-4*eyeRadius)/2, size.getWidth()/4+ size.getWidth()/20, eyeRadius, eyeRadius);
+        g.fillOval((size.getWidth()+2*eyeRadius)/2, size.getWidth()/4+ size.getWidth()/20, eyeRadius, eyeRadius);
+        int mouthRadius = size.getHeight()*2/3;
+        g.setStroke(new BasicStroke(2));
+        g.drawArc((size.getWidth()-4*eyeRadius)/2, size.getWidth()/10 + size.getWidth()/20, mouthRadius, mouthRadius, 225, 60);
         g.dispose();
 
         return image;

@@ -7,8 +7,8 @@ import game.GameLoop;
 public class Main {
     public static void main(String[] args) {
         //display.Display display = new display.Display(800,600);
-        GlobalConstants.displayHeight = 600;
-        GlobalConstants.displayWidth = 800;
+        GlobalConstants.displayHeight = 900;
+        GlobalConstants.displayWidth = 1200;
 
         new Thread(new GameLoop(Game.getInstance())).start();
         //GamePanel gamePanel = new GamePanel();

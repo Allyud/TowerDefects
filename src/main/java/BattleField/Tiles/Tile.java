@@ -22,6 +22,14 @@ public abstract class Tile extends RenderableObject {
         //this.field = field;
     }
 
+    public int getGridX() {
+        return gridX;
+    }
+    public int getGridY() {
+        return gridY;
+    }
+
+
 
 
 }

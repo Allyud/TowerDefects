@@ -2,11 +2,10 @@ package entities.enemies;
 
 import BattleField.BattleField;
 import core.*;
+import entities.towers.Bullet;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
 
 public abstract class Enemy extends RenderableObject {
 
@@ -14,9 +13,10 @@ public abstract class Enemy extends RenderableObject {
     int HP;
     double baseSpeed;
     double speed;
-
+    double traveledDistance;
     boolean isAlive;
     private boolean isVisible;
+    int moneyReward;
     double[] dirVector;
     double dirAngle;
     int lvl = 1;
@@ -24,9 +24,11 @@ public abstract class Enemy extends RenderableObject {
     Position nextPos;
     protected Queue<Position> pathQueue;
     protected BattleField battleField;
-    public Enemy(Size size, int baseHP, double baseSpeed, BattleField battleField) {
+    int damage = 1;
+    public Enemy(Size size, int baseHP, double baseSpeed, int scale, BattleField battleField) {
         super(new Position(0,0), size);
         this.baseHP = baseHP;
+        this.HP = baseHP*scale/100;
         this.baseSpeed = baseSpeed ;
         speed = baseSpeed;
         this.battleField = battleField;
@@ -51,8 +53,6 @@ public abstract class Enemy extends RenderableObject {
                 position.setPosition(path[0][1] * battleField.getTileSize()+ (battleField.getTileSize() - size.getWidth())/2, path[0][0] * battleField.getTileSize());
                 break;
         }
-        //position.setPosition(path[0][1] * battleField.getTileSize(), path[0][0] * battleField.getTileSize());
-        //position.setPosition(100,100);
         isAlive = true;
         isVisible = true;
     }
@@ -60,7 +60,7 @@ public abstract class Enemy extends RenderableObject {
         double dx = target.getX() - position.getX();
         double dy = target.getY() - position.getY();
         double distance = Math.sqrt(dx * dx + dy * dy);
-
+        traveledDistance += speed;
         if (distance > speed) {
             position.setPosition(position.getX() + dx / distance * speed,
                     position.getY() + dy / distance * speed);
@@ -78,6 +78,19 @@ public abstract class Enemy extends RenderableObject {
         }
     }
 
+    public void bulletHit(Bullet bullet){
+        if (!bullet.isActive()){
+            HP -= (int) bullet.getDamage();
+            if (HP <= 0){
+                kill();
+            }
+        }
+    }
+    private void kill(){
+        isAlive = false;
+        isVisible = false;
+        battleField.enemyKilled(this);
+    }
     public void update() {
         if (!pathQueue.isEmpty()) {
             nextPos = pathQueue.peek();
@@ -86,10 +99,33 @@ public abstract class Enemy extends RenderableObject {
                 pathQueue.poll(); // Move to the next step in the path
             }
         }
+        else{
+            battleField.enemySucceed(this);
+            isAlive = false;
+            isVisible = false;
+        }
+    }
+
+    public double getSquaredDistance(Position pos){
+        return Math.pow(pos.getX() - getCenterPosition().getX(), 2) + Math.pow(pos.getY() - getCenterPosition().getY(), 2);
+    }
+    public int getHealth(){
+        return HP;
+    }
+    public double getTraveledDistance(){
+        return traveledDistance;
+    }
+    public int getMoneyReward(){
+        return moneyReward;
     }
 
     public boolean isVisible() {
         return isVisible;
+    }
+    public boolean isAlive() { return isAlive; }
+
+    public int getDamage() {
+        return damage;
     }
 
     //public abstract void update();

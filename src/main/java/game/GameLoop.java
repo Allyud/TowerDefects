@@ -2,8 +2,7 @@ package game;
 
 public class GameLoop implements Runnable{
 
-    private Game game;
-
+    private final Game game;
     private boolean running;
     private final double updateRate = 1.0d/60.0d;
 
@@ -34,7 +33,6 @@ public class GameLoop implements Runnable{
                 render();
             }
             printStats();
-
         }
     }
     private void update() {
@@ -52,7 +50,5 @@ public class GameLoop implements Runnable{
             fps = 0;
             ups = 0;
         }
-
     }
-
 }
