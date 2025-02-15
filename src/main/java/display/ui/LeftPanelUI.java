@@ -21,12 +21,12 @@ public class LeftPanelUI extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         nextWaveButton = new JButton("Next Wave");
-        nextWaveButton.setFont(new Font("Serif", Font.BOLD, 24));
+        nextWaveButton.setFont(new Font("Open Sans", Font.BOLD, 24));
         nextWaveButton.setPreferredSize(new Dimension(150, 75));
         nextWaveButton.setMaximumSize(new Dimension(150, 75));
         nextWaveButton.setMargin(new Insets(0, 0, 0, 0));
         pauseButton = new JButton("Pause");
-        pauseButton.setFont(new Font("Serif", Font.BOLD, 24));
+        pauseButton.setFont(new Font("Open Sans", Font.BOLD, 24));
         pauseButton.setPreferredSize(new Dimension(150, 75));
         pauseButton.setMaximumSize(new Dimension(150, 75));
         pauseButton.setMargin(new Insets(0, 0, 0, 0));

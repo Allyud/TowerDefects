@@ -4,10 +4,10 @@ import BattleField.BattleField;
 import BattleField.Tiles.TowerTile;
 import BattleField.WaveManager;
 import core.GlobalConstants;
+import database.DatabaseManager;
 import display.Display;
 import display.ui.*;
 import entities.towers.*;
-import input.MouseInput;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -18,7 +18,6 @@ public class Game {
     public Display display;
     private BattleField battleField;
     private WaveManager waveManager;
-    private MouseInput mouseInput;
     static private boolean isPaused = false;
     private int baseHP;
     private int money;
@@ -26,7 +25,7 @@ public class Game {
     private boolean towerPurchaseMode = false;
     private String selectedTowerType = null;
     private Tower selectedTowerForUpgrade = null;
-
+    private String playerName = "Sasha";
     private static long gameStartTime = System.currentTimeMillis();
     private static long gamePauseStartTime;
     private static long totalGamePausedTime = 0;
@@ -49,9 +48,6 @@ public class Game {
 
     private Game(int width, int height) {
         display = new Display(width, height);
-        mouseInput = new MouseInput();
-        display.getCanvas().addMouseListener(mouseInput);
-        display.getCanvas().addMouseMotionListener(mouseInput);
         display.getCanvas().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e){
@@ -86,6 +82,9 @@ public class Game {
         });
         leftPanelUI.getTowerUpgradePanel().setUpgradeButtonListener(_ -> upgradeTower(selectedTowerForUpgrade));
         leftPanelUI.getTowerUpgradePanel().setSellButtonListener(_ -> sellTower(selectedTowerForUpgrade));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            DatabaseManager.getInstance().closeConnection();
+        }));
         startGame();
     }
     private void startGame(){
@@ -127,6 +126,7 @@ public class Game {
         showGameOverScreen();
     }
     private void showGameOverScreen() {
+        saveGameRecord(playerName, score);
         // Create and configure the GameOverPanel
         gameOverPanel = new GameOverPanel();
         gameOverPanel.setScore(score);
@@ -135,6 +135,7 @@ public class Game {
         // Set the GameOverPanel as the glass pane overlay
         display.setGlassPane(gameOverPanel);
         gameOverPanel.setVisible(true);
+
     }
     private void restartGame() {
         gameOverPanel.setVisible(false);
@@ -300,6 +301,11 @@ public class Game {
     public void addScore(int score) {
         this.score+= score;
         display.getLeftPanelUI().updateScore(this.score);
+    }
+
+    private void saveGameRecord(String playerName, int score) {
+        DatabaseManager dbManager = DatabaseManager.getInstance();
+        dbManager.saveGameRecord(playerName, score);
     }
     /*public Shop getShop() {
         return shop;

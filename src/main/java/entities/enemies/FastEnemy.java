@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 
 public class FastEnemy extends Enemy{
     public FastEnemy(int scale, BattleField battleField) {
-        super(new Size(battleField.getTileSize()/2, battleField.getTileSize()/2),250, 1.5,scale,  battleField);
+        super(new Size(battleField.getTileSize()/2, battleField.getTileSize()/2),250, 15,scale,  battleField);
         moneyReward = 15;
     }
 
